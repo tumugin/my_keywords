@@ -1,22 +1,22 @@
 import * as React from 'react'
-import { Component } from 'react'
-import { withRouter, RouteComponentProps } from 'react-router'
+import {Component} from 'react'
+import {withRouter, RouteComponentProps} from 'react-router'
 import firebase from './firebase/config'
 import LocalStorageUtil from './util/LocalStorageUtil';
-import { connect } from 'react-redux';
-import { subscribeDatabaseEvents } from './firebase/database';
+import {connect} from 'react-redux';
+import {subscribeDatabaseEvents} from './firebase/database';
 import State from './redux/state';
-import { Dispatch } from 'redux';
+import {Dispatch} from 'redux';
 
-interface IHome{
+interface IHome {
   state: State
 }
 
-interface IHomeDispatch{
+interface IHomeDispatch {
   dispatch: Dispatch
 }
 
-export class Home extends Component<RouteComponentProps & IHome & IHomeDispatch>{
+export class Home extends Component<RouteComponentProps & IHome & IHomeDispatch> {
   componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user == null) {
@@ -31,16 +31,15 @@ export class Home extends Component<RouteComponentProps & IHome & IHomeDispatch>
     return (
       <div>
         <ul>
-          {
-            this.props.state.categories.map(item => <li>{item.name}</li>)
-          }
+          {this.props.state.categories.map(item => <li>{item.name}</li>)}
         </ul>
       </div>
     )
   }
 }
-function mapStateToProps(state: State):IHome {
-  return {state: state}
+
+function mapStateToProps(state: State): IHome {
+  return {state}
 }
 
 export default withRouter(connect(mapStateToProps)(Home))

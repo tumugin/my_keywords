@@ -22,7 +22,7 @@ rm.sync(resolve('dist'))
 
 module.exports = {
   entry: {
-    app: './src/index.jsx'
+    app: './src/index.tsx'
   },
 
   resolve: {
