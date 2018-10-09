@@ -2,9 +2,9 @@ import Category from "../data/category"
 
 export default class State {
   hogehoge = 417
-  categories: Array<Category> = []
+  categories: Category[] = []
 
-  clone():State {
+  clone(): State {
     return Object.assign({}, this)
   }
 }

@@ -2,7 +2,6 @@ import * as React from 'react'
 import {Component} from 'react'
 import {withRouter, RouteComponentProps} from 'react-router'
 import firebase from './firebase/config'
-import LocalStorageUtil from './util/LocalStorageUtil';
 import {connect} from 'react-redux';
 import {subscribeDatabaseEvents} from './firebase/database';
 import State from './redux/state';

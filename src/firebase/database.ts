@@ -9,3 +9,8 @@ export async function subscribeDatabaseEvents(dispatch: Redux.Dispatch) {
     dispatch(AppAction.updateCategoryState(snapshot))
   })
 }
+
+export async function addCategory(category: Category) {
+  const currentUserDocument = firebase.firestore().doc(`/users/${firebase.auth().currentUser!.uid}/`)
+  await currentUserDocument.collection('category').add(category.firebaseObject())
+}

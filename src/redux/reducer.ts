@@ -12,15 +12,13 @@ export default function reducer(state: State = new State(), action: Action) {
       const categoryList: Category[] = []
       action.payload.docs.forEach(item => {
         const category = item.data() as Category
+        category.documentId = item.id
         console.log(category)
         categoryList.push(category)
       })
       const statec = state.clone()
       statec.categories = categoryList
       return statec
-    case getType(actions.addCategoryToFirestore):
-      const document = firebase.firestore().doc(`/users/${firebase.auth().currentUser!.uid}/`)
-      return state
     default:
       return state
   }
