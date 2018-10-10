@@ -7,6 +7,8 @@ import './index.css'
 import Home from './Home'
 import Login from './Login'
 import reducer from './redux/reducer'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 // @ts-ignore
 import registerServiceWorker from './registerServiceWorker.js'
 

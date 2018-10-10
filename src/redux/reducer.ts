@@ -1,8 +1,7 @@
 import {ActionType, getType} from 'typesafe-actions'
 import * as actions from './action'
 import State from './state'
-import firebase from '../firebase/config'
-import Category from '../data/category';
+import Category from '../data/category'
 
 export type Action = ActionType<typeof actions>
 

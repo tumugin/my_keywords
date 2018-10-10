@@ -2,7 +2,7 @@ import * as React from 'react'
 import {Component} from 'react'
 import {withRouter, RouteComponentProps} from 'react-router'
 import firebase from './firebase/config'
-import LocalStorageUtil from './util/LocalStorageUtil';
+import {connect} from "react-redux";
 
 class LoginState {
   isLoggedIn: boolean = false
@@ -14,20 +14,20 @@ export class Login extends Component<RouteComponentProps, LoginState> {
     this.state = new LoginState()
   }
 
-  async googleLogin() {
+  googleLogin = async () => {
     try {
-      localStorage.setItem(LocalStorageUtil.firebaseAuthKey, "true")
-      await firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider())
-    } catch {
-      localStorage.removeItem(LocalStorageUtil.firebaseAuthKey)
+      await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      this.props.history.push('/')
+    } catch (ex) {
+      console.log('login fail.')
+      console.log(ex.toString())
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({isLoggedIn: true})
-        localStorage.setItem(LocalStorageUtil.firebaseAuthUID, user.uid)
       }
     })
   }
@@ -42,4 +42,4 @@ export class Login extends Component<RouteComponentProps, LoginState> {
   }
 }
 
-export default withRouter(Login)
+export default withRouter(connect()(Login))

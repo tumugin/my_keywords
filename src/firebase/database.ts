@@ -3,14 +3,28 @@ import * as Redux from 'redux'
 import * as AppAction from '../redux/action'
 import Category from '../data/category';
 
+function getCurrentUserDocument() {
+  return firebase.firestore().doc(`/users/${firebase.auth().currentUser!.uid}/`)
+}
+
 export async function subscribeDatabaseEvents(dispatch: Redux.Dispatch) {
-  const document = firebase.firestore().doc(`/users/${firebase.auth().currentUser!.uid}/`)
+  const document = getCurrentUserDocument()
   document.collection('category').onSnapshot(snapshot => {
     dispatch(AppAction.updateCategoryState(snapshot))
   })
 }
 
 export async function addCategory(category: Category) {
-  const currentUserDocument = firebase.firestore().doc(`/users/${firebase.auth().currentUser!.uid}/`)
+  const currentUserDocument = getCurrentUserDocument()
   await currentUserDocument.collection('category').add(category.firebaseObject())
+}
+
+export async function deleteCategory(documentId: string) {
+  const currentUserDocument = getCurrentUserDocument()
+  await currentUserDocument.collection('category').doc(documentId).delete()
+}
+
+export async function updateCategory(category: Category) {
+  const currentUserDocument = getCurrentUserDocument()
+  await currentUserDocument.collection('category').doc(category.documentId).update(category.firebaseObject())
 }
