@@ -1,7 +1,7 @@
 import {ActionType, getType} from 'typesafe-actions'
 import * as actions from './action'
 import State from './state'
-import Category from '../data/category'
+import Category, {Keyword} from '../data/category'
 
 export type Action = ActionType<typeof actions>
 
@@ -10,12 +10,13 @@ export default function reducer(state: State = new State(), action: Action) {
     case getType(actions.updateCategoryState):
       const categoryList: Category[] = []
       action.payload.docs.forEach(item => {
-        const category = item.data() as Category
+        const category = Object.assign(new Category(), item.data())
         category.documentId = item.id
+        category.keywords = category.keywords.map(keyword => Object.assign(new Keyword(), keyword))
         console.log(category)
         categoryList.push(category)
       })
-      const statec = state.clone()
+      const statec = Object.assign(new State(), state)
       statec.categories = categoryList
       return statec
     default:

@@ -8,7 +8,7 @@ class LoginState {
   isLoggedIn: boolean = false
 }
 
-export class Login extends Component<RouteComponentProps, LoginState> {
+class Login extends Component<RouteComponentProps, LoginState> {
   constructor(props: RouteComponentProps) {
     super(props)
     this.state = new LoginState()

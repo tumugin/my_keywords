@@ -1,6 +1,14 @@
 export class Keyword {
   name?: string
   order = 0
+
+  constructor(name?: string) {
+    this.name = name
+  }
+
+  toPureObject() {
+    return Object.assign({}, this)
+  }
 }
 
 export default class Category {
@@ -11,12 +19,13 @@ export default class Category {
   documentId?: string
 
   clone() {
-    return Object.assign({}, this)
+    return Object.assign(new Category(), this)
   }
 
   firebaseObject() {
     const cloneobj = Object.assign({}, this)
     delete cloneobj.documentId
+    cloneobj.keywords = this.keywords.map(itm => itm.toPureObject())
     return cloneobj
   }
 }

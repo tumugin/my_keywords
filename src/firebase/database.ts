@@ -7,9 +7,14 @@ function getCurrentUserDocument() {
   return firebase.firestore().doc(`/users/${firebase.auth().currentUser!.uid}/`)
 }
 
+let unsubscribe: firebase.Unsubscribe
+
 export async function subscribeDatabaseEvents(dispatch: Redux.Dispatch) {
   const document = getCurrentUserDocument()
-  document.collection('category').onSnapshot(snapshot => {
+  if (unsubscribe) {
+    unsubscribe()
+  }
+  unsubscribe = document.collection('category').onSnapshot(snapshot => {
     dispatch(AppAction.updateCategoryState(snapshot))
   })
 }

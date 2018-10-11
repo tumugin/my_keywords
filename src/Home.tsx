@@ -3,9 +3,9 @@ import {Component} from 'react'
 import {withRouter, RouteComponentProps} from 'react-router'
 import firebase from './firebase/config'
 import {connect} from 'react-redux';
-import {subscribeDatabaseEvents} from './firebase/database';
 import State from './redux/state';
 import {Dispatch} from 'redux';
+import KeywordCard from "./component/keywordcard";
 
 interface IHome {
   state: State
@@ -19,7 +19,7 @@ class HomeState {
   loginName: string = "(読み込み中...)"
 }
 
-export class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeState> {
+class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeState> {
   onAuthStateChangedUnsubscribe?: firebase.Unsubscribe
 
   constructor(props: RouteComponentProps & IHome & IHomeDispatch) {
@@ -37,7 +37,6 @@ export class Home extends Component<RouteComponentProps & IHome & IHomeDispatch,
       if (user == null) {
         this.props.history.push("/login")
       } else {
-        subscribeDatabaseEvents(this.props.dispatch)
         this.setState({loginName: firebase.auth().currentUser!.displayName!})
       }
     })
@@ -61,9 +60,12 @@ export class Home extends Component<RouteComponentProps & IHome & IHomeDispatch,
             </li>
           </ul>
         </nav>
-        <ul>
-          {this.props.state.categories.map(item => <li>{item.name}</li>)}
-        </ul>
+        <div className="container-fluid" style={{paddingTop: '20px'}}>
+          <button type="button" className="btn btn-outline-success">カテゴリを追加</button>
+          <div className="d-flex flex-row" style={{paddingTop: '20px'}}>
+            {this.props.state.categories.map(item => <KeywordCard category={item}/>)}
+          </div>
+        </div>
       </div>
     )
   }

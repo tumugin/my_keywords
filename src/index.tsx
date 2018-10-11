@@ -11,15 +11,19 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 // @ts-ignore
 import registerServiceWorker from './registerServiceWorker.js'
+import StartupComponent from "./StartupComponent";
 
 const store = createStore(reducer)
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Switch>
-        <Route exact={true} path='/' component={Home}/>
-        <Route exact={true} path='/login' component={Login}/>
-      </Switch>
+      <div>
+        <StartupComponent/>
+        <Switch>
+          <Route exact={true} path='/' component={Home}/>
+          <Route exact={true} path='/login' component={Login}/>
+        </Switch>
+      </div>
     </BrowserRouter>
   </Provider>
   , document.getElementById('root'))
