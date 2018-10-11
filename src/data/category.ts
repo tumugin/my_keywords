@@ -9,6 +9,10 @@ export class Keyword {
   toPureObject() {
     return Object.assign({}, this)
   }
+
+  clone() {
+    return Object.assign(new Keyword(), this) as Keyword
+  }
 }
 
 export default class Category {
@@ -19,7 +23,7 @@ export default class Category {
   documentId?: string
 
   clone() {
-    return Object.assign(new Category(), this)
+    return Object.assign(new Category(), this) as Category
   }
 
   firebaseObject() {
