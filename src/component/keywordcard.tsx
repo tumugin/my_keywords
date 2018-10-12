@@ -59,7 +59,7 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
               <input type="text" className="form-control" placeholder="カテゴリーの名前"
                      value={this.state.categoryNameEditText} onChange={this.onCategoryNameEditTextChanged}/>
             </form>
-            <span style={{display: this.state.categoryNameEditOpened ? 'none' : 'inline'}}>
+            <span style={{display: this.state.categoryNameEditOpened ? 'none' : 'inline', whiteSpace: 'nowrap'}}>
               <a href="#" onClick={this.onCategoryNameEditClicked}
                  style={{paddingRight: '10px'}}>{ReactHtmlParser(octicons.pencil.toSVG())}</a>
               <a href="#" onClick={this.onCategoryDeleteClicked}>{ReactHtmlParser(octicons.trashcan.toSVG())}</a>

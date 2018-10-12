@@ -115,9 +115,9 @@ export default class DraggableKeyword extends React.Component<ICardProps, CardSt
               <input type="text" className="form-control" placeholder="単語を新しく追加" value={this.state.editedText}
                      onChange={this.onEditKeywordChanged}/>
             </form>
-            <span style={{display: this.state.textboxShown ? 'none' : 'inline'}}>
+            <span style={{display: this.state.textboxShown ? 'none' : 'inline', whiteSpace: 'nowrap'}}>
               <a onClick={this.onEditKeywordClick} href="#"
-                 style={{paddingRight: '10px'}}>{ReactHtmlParser(octicons.pencil.toSVG())}</a>
+                 style={{marginRight: '10px'}}>{ReactHtmlParser(octicons.pencil.toSVG())}</a>
               <a onClick={() => onDeleteClick(this.props.keyword.id!)}
                  href="#">{ReactHtmlParser(octicons.trashcan.toSVG())}</a>
             </span>
