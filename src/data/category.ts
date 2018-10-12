@@ -1,9 +1,13 @@
+import * as uuidv4 from 'uuid/v4'
+
 export class Keyword {
   name?: string
+  id?: string
   order = 0
 
   constructor(name?: string) {
     this.name = name
+    this.id = uuidv4()
   }
 
   toPureObject() {

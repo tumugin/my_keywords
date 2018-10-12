@@ -63,7 +63,7 @@ class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeSt
         <div className="container-fluid" style={{paddingTop: '20px'}}>
           <button type="button" className="btn btn-outline-success">カテゴリを追加</button>
           <div className="d-flex flex-row" style={{paddingTop: '20px'}}>
-            {this.props.state.categories.map(item => <KeywordCard category={item}/>)}
+            {this.props.state.categories.map(item => <KeywordCard category={item} key={item.documentId}/>)}
           </div>
         </div>
       </div>

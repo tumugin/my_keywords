@@ -84,7 +84,7 @@ export default class DraggableKeyword extends React.Component<ICardProps> {
       connectDragSource &&
       connectDropTarget &&
       connectDragSource(
-        connectDropTarget(<li className="list-group-item">{text}</li>)
+        connectDropTarget(<li className="list-group-item" style={{opacity: this.props.isDragging ? 0 : 1}}>{text}</li>)
       )
     )
   }
