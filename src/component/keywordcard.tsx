@@ -48,9 +48,11 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
         <div className="card border-dark mb-3" style={{width: '18rem'}}>
           <div className="card-header">{this.props.category.name}</div>
           <ul className="list-group list-group-flush">
-            {this.props.category.keywords.map((keyword, idx) => <DraggableKeyword text={keyword.name!} index={idx}
+            {this.props.category.keywords.map((kwd, idx) => <DraggableKeyword keyword={kwd} index={idx}
                                                                                   identifierId={this.props.category.documentId!}
-                                                                                  moveCard={this.moveCard} key={keyword.id}/>)}
+                                                                                  moveCard={this.moveCard}
+                                                                                  key={kwd.id}
+                                                                                  onDeleteClick={this.deleteKeyword}/>)}
             <li className="list-group-item">
               <form onSubmit={this.onAddKeyword} action="javascript:void(0)">
                 <input type="text" className="form-control" placeholder="単語を新しく追加" value={this.state.addKeywordText}
@@ -69,6 +71,13 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
     const categorycopy = this.props.category.clone()
     categorycopy.keywords.splice(hoverIndex + (hoverIndex > dragIndex ? 1 : 0), 0, olditemclone)
     categorycopy.keywords.splice(categorycopy.keywords.indexOf(oldref), 1)
+    database.updateCategory(categorycopy)
+  }
+
+  private deleteKeyword = async (identifierId: string) => {
+    const categorycopy = this.props.category.clone()
+    const deleteidx = categorycopy.keywords.indexOf(categorycopy.keywords.filter(item => item.id === identifierId)[0])
+    categorycopy.keywords.splice(deleteidx, 1)
     database.updateCategory(categorycopy)
   }
 }

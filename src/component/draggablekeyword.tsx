@@ -11,6 +11,10 @@ import {
   DragSourceMonitor
 } from 'react-dnd'
 import {XYCoord} from 'dnd-core'
+import * as octicons from 'octicons'
+// @ts-ignore
+import ReactHtmlParser from 'react-html-parser'
+import {Keyword} from "../data/category";
 
 const cardSource = {
   beginDrag(props: ICardProps) {
@@ -52,13 +56,14 @@ const cardTarget = {
 }
 
 export interface ICardProps {
-  text: string
+  keyword: Keyword
   index: number
   isDragging?: boolean
   identifierId: string
   connectDragSource?: ConnectDragSource
   connectDropTarget?: ConnectDropTarget
   moveCard: (dragIndex: number, hoverIndex: number) => void
+  onDeleteClick: (identifierId: string) => void
 }
 
 const CardIdentifier: string = "CARD"
@@ -75,8 +80,9 @@ const CardIdentifier: string = "CARD"
 export default class DraggableKeyword extends React.Component<ICardProps> {
   public render() {
     const {
-      text,
       isDragging,
+      onDeleteClick,
+      identifierId,
       connectDragSource,
       connectDropTarget
     } = this.props
@@ -84,7 +90,16 @@ export default class DraggableKeyword extends React.Component<ICardProps> {
       connectDragSource &&
       connectDropTarget &&
       connectDragSource(
-        connectDropTarget(<li className="list-group-item" style={{opacity: this.props.isDragging ? 0 : 1}}>{text}</li>)
+        connectDropTarget(
+          <li className="list-group-item" style={{
+            opacity: isDragging ? 0 : 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <span>{this.props.keyword.name}</span>
+            <a onClick={() => onDeleteClick(this.props.keyword.id!)} href="#">{ReactHtmlParser(octicons.trashcan.toSVG())}</a>
+          </li>)
       )
     )
   }

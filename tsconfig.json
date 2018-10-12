@@ -10,7 +10,8 @@
       "target": "es6",
       "baseUrl": "./",
       "paths": {
-        "@": ["src"]
+        "@": ["src"],
+        "*": ["@types/*"]
       },
       "jsx": "react"
   }
