@@ -8,6 +8,9 @@ import * as database from "../firebase/database"
 import {DragDropContext} from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import DraggableKeyword from "./draggablekeyword";
+import * as octicons from 'octicons'
+// @ts-ignore
+import ReactHtmlParser from 'react-html-parser'
 
 interface IKeywordCardDispatch {
   dispatch?: Dispatch
@@ -17,6 +20,8 @@ interface IKeywordCardDispatch {
 class KeywordCardState {
   isDeleteModalOpened: boolean = true
   addKeywordText: string = ""
+  categoryNameEditText: string = ""
+  categoryNameEditOpened: boolean = false
 }
 
 Modal.setAppElement('#root')
@@ -32,7 +37,20 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
     return (
       <div>
         <div className="card border-dark mb-3" style={{width: '18rem'}}>
-          <div className="card-header">{this.props.category.name}</div>
+          <div className="card-header" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+            <span
+              style={{display: this.state.categoryNameEditOpened ? 'none' : 'inline'}}>{this.props.category.name}</span>
+            <form action="javascript:void(0)" onSubmit={this.onCategoryNameChanged}
+                  style={{display: this.state.categoryNameEditOpened ? 'inline' : 'none'}}>
+              <input type="text" className="form-control" placeholder="カテゴリーの名前"
+                     value={this.state.categoryNameEditText} onChange={this.onCategoryNameEditTextChanged}/>
+            </form>
+            <span style={{display: this.state.categoryNameEditOpened ? 'none' : 'inline'}}>
+              <a href="#" onClick={this.onCategoryNameEditClicked}
+                 style={{paddingRight: '10px'}}>{ReactHtmlParser(octicons.pencil.toSVG())}</a>
+              <a href="#">{ReactHtmlParser(octicons.trashcan.toSVG())}</a>
+            </span>
+          </div>
           <ul className="list-group list-group-flush">
             {this.props.category.keywords.map((kwd, idx) => <DraggableKeyword keyword={kwd} index={idx}
                                                                               identifierId={this.props.category.documentId!}
@@ -79,13 +97,31 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
     const categorycopy = this.props.category.clone()
     const deleteidx = categorycopy.keywords.indexOf(categorycopy.keywords.filter(item => item.id === identifierId)[0])
     categorycopy.keywords.splice(deleteidx, 1)
-    database.updateCategory(categorycopy)
+    await database.updateCategory(categorycopy)
   }
 
   private editKeyword = async (id: string, text: string) => {
     const categorycopy = this.props.category.clone()
     categorycopy.keywords.filter(item => item.id === id)[0].name = text
-    database.updateCategory(categorycopy)
+    await database.updateCategory(categorycopy)
+  }
+
+  private onCategoryNameEditClicked = async () => {
+    this.setState({categoryNameEditOpened: true, categoryNameEditText: this.props.category.name!})
+  }
+
+  private onCategoryNameEditTextChanged = async (event: ChangeEvent<HTMLInputElement>) => {
+    await this.setState({categoryNameEditText: event.target.value})
+  }
+
+  private onCategoryNameChanged = async () => {
+    if (this.state.categoryNameEditText === '') {
+      return
+    }
+    const categorycopy = this.props.category.clone()
+    categorycopy.name = this.state.categoryNameEditText
+    await database.updateCategory(categorycopy)
+    this.setState({categoryNameEditOpened: false})
   }
 }
 
