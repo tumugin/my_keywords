@@ -11,6 +11,7 @@ import DraggableKeyword from "./draggablekeyword";
 import * as octicons from 'octicons'
 // @ts-ignore
 import ReactHtmlParser from 'react-html-parser'
+import YesNoModal from "./yesNoModal";
 
 interface IKeywordCardDispatch {
   dispatch?: Dispatch
@@ -18,7 +19,7 @@ interface IKeywordCardDispatch {
 }
 
 class KeywordCardState {
-  isDeleteModalOpened: boolean = true
+  isDeleteModalOpened: boolean = false
   addKeywordText: string = ""
   categoryNameEditText: string = ""
   categoryNameEditOpened: boolean = false
@@ -28,6 +29,19 @@ Modal.setAppElement('#root')
 
 @DragDropContext(HTML5Backend)
 class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
+  private ModalStyle: Modal.Styles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      border: 'none',
+      width: '400px'
+    }
+  }
+
   constructor(props: IKeywordCardDispatch) {
     super(props)
     this.state = new KeywordCardState()
@@ -48,7 +62,7 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
             <span style={{display: this.state.categoryNameEditOpened ? 'none' : 'inline'}}>
               <a href="#" onClick={this.onCategoryNameEditClicked}
                  style={{paddingRight: '10px'}}>{ReactHtmlParser(octicons.pencil.toSVG())}</a>
-              <a href="#">{ReactHtmlParser(octicons.trashcan.toSVG())}</a>
+              <a href="#" onClick={this.onCategoryDeleteClicked}>{ReactHtmlParser(octicons.trashcan.toSVG())}</a>
             </span>
           </div>
           <ul className="list-group list-group-flush">
@@ -66,6 +80,10 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
             </li>
           </ul>
         </div>
+        <Modal isOpen={this.state.isDeleteModalOpened} style={this.ModalStyle}>
+          <YesNoModal messageText="本当にカテゴリを削除しますか?" modalTitle="確認" noText="やめる" yesText="削除する"
+                      onDialogClosed={this.onCategoryDelete}/>
+        </Modal>
       </div>
     )
   }
@@ -122,6 +140,17 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
     categorycopy.name = this.state.categoryNameEditText
     await database.updateCategory(categorycopy)
     this.setState({categoryNameEditOpened: false})
+  }
+
+  private onCategoryDeleteClicked = async () => {
+    this.setState({isDeleteModalOpened: true})
+  }
+
+  private onCategoryDelete = async (isAccepted: boolean) => {
+    if (isAccepted) {
+      database.deleteCategory(this.props.category.documentId!)
+    }
+    this.setState({isDeleteModalOpened: false})
   }
 }
 
