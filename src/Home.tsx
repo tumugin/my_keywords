@@ -2,10 +2,13 @@ import * as React from 'react'
 import {Component} from 'react'
 import {withRouter, RouteComponentProps} from 'react-router'
 import firebase from './firebase/config'
-import {connect} from 'react-redux';
-import State from './redux/state';
-import {Dispatch} from 'redux';
-import KeywordCard from "./component/keywordcard";
+import {connect} from 'react-redux'
+import State from './redux/state'
+import {Dispatch} from 'redux'
+import KeywordCard from "./component/keywordcard"
+import {ChangeEvent} from "react"
+import * as database from "./firebase/database"
+import Category from "./data/category"
 
 interface IHome {
   state: State
@@ -17,6 +20,7 @@ interface IHomeDispatch {
 
 class HomeState {
   loginName: string = "(読み込み中...)"
+  newCategoryNameText: string = ""
 }
 
 class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeState> {
@@ -61,13 +65,31 @@ class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeSt
           </ul>
         </nav>
         <div className="container-fluid" style={{paddingTop: '20px'}}>
-          <button type="button" className="btn btn-outline-success">カテゴリを追加</button>
+          <form action="javascript:void(0)" className="d-flex flex-row" onSubmit={this.onCategoryAdd}>
+            <input type="text" className="form-control" placeholder="追加するカテゴリーの名前を入力"
+                   style={{width: '300px', marginRight: '10px'}}
+                   value={this.state.newCategoryNameText} onChange={this.onNewCategoryTextChanged}/>
+            <button type="submit" className="btn btn-outline-success">カテゴリを追加</button>
+          </form>
           <div className="d-flex flex-row" style={{paddingTop: '20px'}}>
-            {this.props.state.categories.map(item => <KeywordCard category={item} key={item.documentId}/>)}
+            {this.props.state.categories.map(item => <div style={{margin: '10px'}} key={item.documentId}>
+              <KeywordCard category={item}/>
+            </div>)}
           </div>
         </div>
       </div>
     )
+  }
+
+  private onNewCategoryTextChanged = async (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({newCategoryNameText: event.target.value})
+  }
+
+  private onCategoryAdd = async () => {
+    const category = new Category()
+    category.name = this.state.newCategoryNameText
+    await database.addCategory(category)
+    this.setState({newCategoryNameText: ""})
   }
 }
 
