@@ -28,20 +28,6 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
     this.state = new KeywordCardState()
   }
 
-  onAddKeywordChanged = async (event: ChangeEvent<HTMLInputElement>) => {
-    await this.setState({addKeywordText: event.target.value})
-  }
-
-  onAddKeyword = async () => {
-    if (this.state.addKeywordText === '') {
-      return
-    }
-    const categorycopy = this.props.category.clone()
-    categorycopy.keywords.push(new Keyword(this.state.addKeywordText))
-    database.updateCategory(categorycopy)
-    await this.setState({addKeywordText: ''})
-  }
-
   render() {
     return (
       <div>
@@ -49,10 +35,11 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
           <div className="card-header">{this.props.category.name}</div>
           <ul className="list-group list-group-flush">
             {this.props.category.keywords.map((kwd, idx) => <DraggableKeyword keyword={kwd} index={idx}
-                                                                                  identifierId={this.props.category.documentId!}
-                                                                                  moveCard={this.moveCard}
-                                                                                  key={kwd.id}
-                                                                                  onDeleteClick={this.deleteKeyword}/>)}
+                                                                              identifierId={this.props.category.documentId!}
+                                                                              moveCard={this.moveCard}
+                                                                              key={kwd.id}
+                                                                              onDeleteClick={this.deleteKeyword}
+                                                                              onEdit={this.editKeyword}/>)}
             <li className="list-group-item">
               <form onSubmit={this.onAddKeyword} action="javascript:void(0)">
                 <input type="text" className="form-control" placeholder="単語を新しく追加" value={this.state.addKeywordText}
@@ -63,6 +50,20 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
         </div>
       </div>
     )
+  }
+
+  private onAddKeywordChanged = async (event: ChangeEvent<HTMLInputElement>) => {
+    await this.setState({addKeywordText: event.target.value})
+  }
+
+  private onAddKeyword = async () => {
+    if (this.state.addKeywordText === '') {
+      return
+    }
+    const categorycopy = this.props.category.clone()
+    categorycopy.keywords.push(new Keyword(this.state.addKeywordText))
+    database.updateCategory(categorycopy)
+    await this.setState({addKeywordText: ''})
   }
 
   private moveCard = async (dragIndex: number, hoverIndex: number) => {
@@ -78,6 +79,12 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
     const categorycopy = this.props.category.clone()
     const deleteidx = categorycopy.keywords.indexOf(categorycopy.keywords.filter(item => item.id === identifierId)[0])
     categorycopy.keywords.splice(deleteidx, 1)
+    database.updateCategory(categorycopy)
+  }
+
+  private editKeyword = async (id: string, text: string) => {
+    const categorycopy = this.props.category.clone()
+    categorycopy.keywords.filter(item => item.id === id)[0].name = text
     database.updateCategory(categorycopy)
   }
 }

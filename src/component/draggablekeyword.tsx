@@ -14,7 +14,8 @@ import {XYCoord} from 'dnd-core'
 import * as octicons from 'octicons'
 // @ts-ignore
 import ReactHtmlParser from 'react-html-parser'
-import {Keyword} from "../data/category";
+import {Keyword} from "../data/category"
+import {ChangeEvent} from "react"
 
 const cardSource = {
   beginDrag(props: ICardProps) {
@@ -63,10 +64,16 @@ export interface ICardProps {
   connectDragSource?: ConnectDragSource
   connectDropTarget?: ConnectDropTarget
   moveCard: (dragIndex: number, hoverIndex: number) => void
-  onDeleteClick: (identifierId: string) => void
+  onDeleteClick: (id: string) => void
+  onEdit: (id: string, changedText: string) => void
 }
 
-const CardIdentifier: string = "CARD"
+class CardState {
+  editedText: string = ""
+  textboxShown: boolean = false
+}
+
+const CardIdentifier = "CARD"
 
 @DropTarget(CardIdentifier, cardTarget, (connect: DropTargetConnector) => ({
   connectDropTarget: connect.dropTarget()
@@ -77,7 +84,12 @@ const CardIdentifier: string = "CARD"
     isDragging: monitor.isDragging()
   })
 )
-export default class DraggableKeyword extends React.Component<ICardProps> {
+export default class DraggableKeyword extends React.Component<ICardProps, CardState> {
+  constructor(props: ICardProps) {
+    super(props)
+    this.state = new CardState()
+  }
+
   public render() {
     const {
       isDragging,
@@ -97,10 +109,37 @@ export default class DraggableKeyword extends React.Component<ICardProps> {
             alignItems: 'center',
             justifyContent: 'space-between'
           }}>
-            <span>{this.props.keyword.name}</span>
-            <a onClick={() => onDeleteClick(this.props.keyword.id!)} href="#">{ReactHtmlParser(octicons.trashcan.toSVG())}</a>
+            <span style={{display: this.state.textboxShown ? 'none' : 'inline'}}>{this.props.keyword.name}</span>
+            <form onSubmit={this.onEditKeyword} action="javascript:void(0)"
+                  style={{display: this.state.textboxShown ? 'inline' : 'none'}}>
+              <input type="text" className="form-control" placeholder="単語を新しく追加" value={this.state.editedText}
+                     onChange={this.onEditKeywordChanged}/>
+            </form>
+            <span style={{display: this.state.textboxShown ? 'none' : 'inline'}}>
+              <a onClick={this.onEditKeywordClick} href="#"
+                 style={{paddingRight: '10px'}}>{ReactHtmlParser(octicons.pencil.toSVG())}</a>
+              <a onClick={() => onDeleteClick(this.props.keyword.id!)}
+                 href="#">{ReactHtmlParser(octicons.trashcan.toSVG())}</a>
+            </span>
           </li>)
       )
     )
+  }
+
+  private onEditKeywordClick = async () => {
+    await this.setState({editedText: this.props.keyword.name!})
+    await this.setState({textboxShown: true})
+  }
+
+  private onEditKeywordChanged = async (event: ChangeEvent<HTMLInputElement>) => {
+    await this.setState({editedText: event.target.value})
+  }
+
+  private onEditKeyword = async () => {
+    if (this.state.editedText === '') {
+      return
+    }
+    await this.setState({textboxShown: false})
+    this.props.onEdit(this.props.keyword.id!, this.state.editedText)
   }
 }
