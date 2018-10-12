@@ -9,6 +9,7 @@ import KeywordCard from "./component/keywordcard"
 import {ChangeEvent} from "react"
 import * as database from "./firebase/database"
 import Category from "./data/category"
+import Masonry from 'react-masonry-component'
 
 interface IHome {
   state: State
@@ -71,11 +72,11 @@ class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeSt
                    value={this.state.newCategoryNameText} onChange={this.onNewCategoryTextChanged}/>
             <button type="submit" className="btn btn-outline-success">カテゴリを追加</button>
           </form>
-          <div className="d-flex flex-row" style={{paddingTop: '20px'}}>
+          <Masonry style={{paddingTop: '20px'}}>
             {this.props.state.categories.map(item => <div style={{margin: '10px'}} key={item.documentId}>
               <KeywordCard category={item}/>
             </div>)}
-          </div>
+          </Masonry>
         </div>
       </div>
     )
