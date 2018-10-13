@@ -16,7 +16,9 @@ export default function reducer(state: State = new State(), action: Action) {
         console.log(category)
         categoryList.push(category)
       })
+      const keywordcount = categoryList.map(item => item.keywords.length).reduce((sum, itm) => sum += itm, 0)
       const statec = Object.assign(new State(), state)
+      statec.keywordsCount = keywordcount
       statec.categories = categoryList
       return statec
     default:

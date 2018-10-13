@@ -66,11 +66,12 @@ class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeSt
           </ul>
         </nav>
         <div className="container-fluid" style={{paddingTop: '20px'}}>
-          <form action="javascript:void(0)" className="d-flex flex-row" onSubmit={this.onCategoryAdd}>
+          <form action="javascript:void(0)" className="d-flex flex-row align-items-center flex-wrap" onSubmit={this.onCategoryAdd}>
             <input type="text" className="form-control" placeholder="追加するカテゴリーの名前を入力"
                    style={{width: '300px', marginRight: '10px'}}
                    value={this.state.newCategoryNameText} onChange={this.onNewCategoryTextChanged}/>
-            <button type="submit" className="btn btn-outline-success">カテゴリを追加</button>
+            <button type="submit" className="btn btn-outline-success" style={{marginRight: '10px'}}>カテゴリを追加</button>
+            <span>合計キーワード数: {this.props.state.keywordsCount}個</span>
           </form>
           <Masonry style={{paddingTop: '20px'}}>
             {this.props.state.categories.map(item => <div style={{margin: '10px'}} key={item.documentId}>
