@@ -13,7 +13,7 @@ import * as octicons from 'octicons'
 import ReactHtmlParser from 'react-html-parser'
 import YesNoModal from './yesNoModal'
 
-interface IKeywordCardDispatch {
+interface IKeywordCardProps {
   dispatch?: Dispatch
   category: Category
 }
@@ -28,7 +28,7 @@ class KeywordCardState {
 Modal.setAppElement('#root')
 
 @DragDropContext(HTML5Backend)
-class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
+class KeywordCard extends Component<IKeywordCardProps, KeywordCardState> {
   private ModalStyle: Modal.Styles = {
     content: {
       top: '50%',
@@ -42,7 +42,7 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
     }
   }
 
-  constructor(props: IKeywordCardDispatch) {
+  constructor(props: IKeywordCardProps) {
     super(props)
     this.state = new KeywordCardState()
   }
@@ -52,8 +52,12 @@ class KeywordCard extends Component<IKeywordCardDispatch, KeywordCardState> {
       <div>
         <div className="card border-dark mb-3" style={{width: '18rem'}}>
           <div className="card-header" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-            <span
-              style={{display: this.state.categoryNameEditOpened ? 'none' : 'inline'}}>{this.props.category.name}</span>
+            <span style={{display: this.state.categoryNameEditOpened ? 'none' : 'inline'}}>
+              {this.props.category.name}
+              <span className="badge badge-secondary" style={{marginLeft: '5px'}}>
+                {this.props.category.keywords.length}
+              </span>
+            </span>
             <form action="javascript:void(0)" onSubmit={this.onCategoryNameChanged}
                   style={{display: this.state.categoryNameEditOpened ? 'inline' : 'none'}}>
               <input type="text" className="form-control" placeholder="カテゴリーの名前"
