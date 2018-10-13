@@ -1,4 +1,4 @@
-import Category from "../data/category"
+import Category from '../data/category'
 
 export default class State {
   categories: Category[] = []

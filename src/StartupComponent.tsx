@@ -1,9 +1,9 @@
 import * as React from 'react'
-import {Component} from "react"
-import {connect} from "react-redux"
-import firebase from "./firebase/config"
-import {subscribeDatabaseEvents} from "./firebase/database"
-import {Dispatch} from "redux"
+import {Component} from 'react'
+import {connect} from 'react-redux'
+import firebase from './firebase/config'
+import {subscribeDatabaseEvents} from './firebase/database'
+import {Dispatch} from 'redux'
 
 interface IStartupComponentProp {
   dispatch?: Dispatch

@@ -1,7 +1,7 @@
 import firebase from './config'
 import * as Redux from 'redux'
 import * as AppAction from '../redux/action'
-import Category from '../data/category';
+import Category from '../data/category'
 
 function getCurrentUserDocument() {
   return firebase.firestore().doc(`/users/${firebase.auth().currentUser!.uid}/`)

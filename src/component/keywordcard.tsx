@@ -1,17 +1,17 @@
 import * as React from 'react'
-import {ChangeEvent, Component} from "react"
-import {connect} from "react-redux"
-import {Dispatch} from "redux"
-import Category, {Keyword} from "../data/category"
-import * as Modal from "react-modal"
-import * as database from "../firebase/database"
+import {ChangeEvent, Component} from 'react'
+import {connect} from 'react-redux'
+import {Dispatch} from 'redux'
+import Category, {Keyword} from '../data/category'
+import * as Modal from 'react-modal'
+import * as database from '../firebase/database'
 import {DragDropContext} from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import DraggableKeyword from "./draggablekeyword";
+import DraggableKeyword from './draggablekeyword'
 import * as octicons from 'octicons'
 // @ts-ignore
 import ReactHtmlParser from 'react-html-parser'
-import YesNoModal from "./yesNoModal";
+import YesNoModal from './yesNoModal'
 
 interface IKeywordCardDispatch {
   dispatch?: Dispatch
@@ -20,8 +20,8 @@ interface IKeywordCardDispatch {
 
 class KeywordCardState {
   isDeleteModalOpened: boolean = false
-  addKeywordText: string = ""
-  categoryNameEditText: string = ""
+  addKeywordText: string = ''
+  categoryNameEditText: string = ''
   categoryNameEditOpened: boolean = false
 }
 

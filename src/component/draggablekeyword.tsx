@@ -14,8 +14,8 @@ import {XYCoord} from 'dnd-core'
 import * as octicons from 'octicons'
 // @ts-ignore
 import ReactHtmlParser from 'react-html-parser'
-import {Keyword} from "../data/category"
-import {ChangeEvent} from "react"
+import {Keyword} from '../data/category'
+import {ChangeEvent} from 'react'
 
 const cardSource = {
   beginDrag(props: ICardProps) {
@@ -69,11 +69,11 @@ export interface ICardProps {
 }
 
 class CardState {
-  editedText: string = ""
+  editedText: string = ''
   textboxShown: boolean = false
 }
 
-const CardIdentifier = "CARD"
+const CardIdentifier = 'CARD'
 
 @DropTarget(CardIdentifier, cardTarget, (connect: DropTargetConnector) => ({
   connectDropTarget: connect.dropTarget()

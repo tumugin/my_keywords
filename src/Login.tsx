@@ -2,7 +2,7 @@ import * as React from 'react'
 import {Component} from 'react'
 import {withRouter, RouteComponentProps} from 'react-router'
 import firebase from './firebase/config'
-import {connect} from "react-redux";
+import {connect} from 'react-redux'
 
 class LoginState {
   isLoggedIn: boolean = false
@@ -36,7 +36,7 @@ class Login extends Component<RouteComponentProps, LoginState> {
     return (
       <div>
         <button onClick={this.googleLogin}>Googleでログイン</button>
-        <p>{this.state.isLoggedIn ? "ログイン済み" : "未ログイン"}</p>
+        <p>{this.state.isLoggedIn ? 'ログイン済み' : '未ログイン'}</p>
       </div>
     )
   }

@@ -5,10 +5,10 @@ import firebase from './firebase/config'
 import {connect} from 'react-redux'
 import State from './redux/state'
 import {Dispatch} from 'redux'
-import KeywordCard from "./component/keywordcard"
-import {ChangeEvent} from "react"
-import * as database from "./firebase/database"
-import Category from "./data/category"
+import KeywordCard from './component/keywordcard'
+import {ChangeEvent} from 'react'
+import * as database from './firebase/database'
+import Category from './data/category'
 import Masonry from 'react-masonry-component'
 
 interface IHome {
@@ -20,8 +20,8 @@ interface IHomeDispatch {
 }
 
 class HomeState {
-  loginName: string = "(読み込み中...)"
-  newCategoryNameText: string = ""
+  loginName: string = '(読み込み中...)'
+  newCategoryNameText: string = ''
 }
 
 class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeState> {
@@ -34,13 +34,13 @@ class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeSt
 
   firebaseLogout = async () => {
     await firebase.auth().signOut()
-    this.props.history.push("/login")
+    this.props.history.push('/login')
   }
 
   componentWillMount() {
     this.onAuthStateChangedUnsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user == null) {
-        this.props.history.push("/login")
+        this.props.history.push('/login')
       } else {
         this.setState({loginName: firebase.auth().currentUser!.displayName!})
       }
@@ -90,7 +90,7 @@ class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeSt
     const category = new Category()
     category.name = this.state.newCategoryNameText
     await database.addCategory(category)
-    this.setState({newCategoryNameText: ""})
+    this.setState({newCategoryNameText: ''})
   }
 }
 

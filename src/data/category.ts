@@ -21,7 +21,7 @@ export class Keyword {
 
 export default class Category {
   name?: string
-  color = "#00000"
+  color = '#00000'
   order = 0
   keywords: Keyword[] = []
   documentId?: string
