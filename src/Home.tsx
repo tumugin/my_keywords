@@ -66,11 +66,13 @@ class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeSt
           </ul>
         </nav>
         <div className="container-fluid" style={{paddingTop: '20px'}}>
-          <form action="javascript:void(0)" className="d-flex flex-row align-items-center flex-wrap" onSubmit={this.onCategoryAdd}>
+          <form action="javascript:void(0)" className="d-flex flex-row align-items-center flex-wrap"
+                onSubmit={this.onCategoryAdd}>
             <input type="text" className="form-control" placeholder="追加するカテゴリーの名前を入力"
                    style={{width: '300px', marginRight: '10px'}}
                    value={this.state.newCategoryNameText} onChange={this.onNewCategoryTextChanged}/>
             <button type="submit" className="btn btn-outline-success" style={{marginRight: '10px'}}>カテゴリを追加</button>
+            <button type="button" onClick={this.onPrintClick} className="btn btn-outline-primary" style={{marginRight: '10px'}}>印刷用HTML表示</button>
             <span>合計キーワード数: {this.props.state.keywordsCount}個</span>
           </form>
           <Masonry style={{paddingTop: '20px'}}>
@@ -92,6 +94,10 @@ class Home extends Component<RouteComponentProps & IHome & IHomeDispatch, HomeSt
     category.name = this.state.newCategoryNameText
     await database.addCategory(category)
     this.setState({newCategoryNameText: ''})
+  }
+
+  private onPrintClick = () => {
+    this.props.history.push('/print')
   }
 }
 

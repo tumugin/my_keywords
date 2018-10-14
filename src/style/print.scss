@@ -1,0 +1,17 @@
+.categoryCard {
+  margin: 10px;
+  display: inline-block;
+  width: 100%;
+}
+
+.keyword {
+  margin: 5px;
+  font-size: 15pt;
+  white-space: normal;
+}
+
+.categoryParent {
+  column-width: 300px;
+  //WORKAROUND
+  padding-right: 20px;
+}

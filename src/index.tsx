@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // @ts-ignore
 import registerServiceWorker from './registerServiceWorker.js'
 import StartupComponent from './StartupComponent'
+import Print from './Print'
 
 const store = createStore(reducer)
 ReactDOM.render(
@@ -22,6 +23,7 @@ ReactDOM.render(
         <Switch>
           <Route exact={true} path="/" component={Home}/>
           <Route exact={true} path="/login" component={Login}/>
+          <Route exact={true} path="/print" component={Print}/>
         </Switch>
       </div>
     </BrowserRouter>
