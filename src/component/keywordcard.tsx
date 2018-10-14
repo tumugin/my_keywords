@@ -59,7 +59,7 @@ class KeywordCard extends Component<IKeywordCardProps, KeywordCardState> {
               </span>
             </span>
             <form action="javascript:void(0)" onSubmit={this.onCategoryNameChanged}
-                  style={{display: this.state.categoryNameEditOpened ? 'inline' : 'none'}}>
+                  style={{display: this.state.categoryNameEditOpened ? 'inline' : 'none', width: '100%'}}>
               <input type="text" className="form-control" placeholder="カテゴリーの名前"
                      value={this.state.categoryNameEditText} onChange={this.onCategoryNameEditTextChanged}/>
             </form>

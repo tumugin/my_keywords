@@ -111,7 +111,7 @@ export default class DraggableKeyword extends React.Component<ICardProps, CardSt
           }}>
             <span style={{display: this.state.textboxShown ? 'none' : 'inline'}}>{this.props.keyword.name}</span>
             <form onSubmit={this.onEditKeyword} action="javascript:void(0)"
-                  style={{display: this.state.textboxShown ? 'inline' : 'none'}}>
+                  style={{display: this.state.textboxShown ? 'inline' : 'none', width: '100%'}}>
               <input type="text" className="form-control" placeholder="単語を新しく追加" value={this.state.editedText}
                      onChange={this.onEditKeywordChanged}/>
             </form>
