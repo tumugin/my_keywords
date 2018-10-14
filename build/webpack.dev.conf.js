@@ -45,6 +45,14 @@ module.exports = merge(baseConfig, {
           'postcss-loader',
           'stylus-loader'
         ]
+      }, {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+        ]
       }
     ]
   },
