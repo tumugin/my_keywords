@@ -19,8 +19,12 @@ if(process.env.PUBLIC_URL === undefined) process.env.PUBLIC_URL = publicUrl
 
 //delete dist files
 rm.sync(resolve('dist'))
+rm.sync(resolve('prod'))
 
 module.exports = {
+  output: {
+    path: resolve('dist')
+  },
   entry: {
     app: './src/index.tsx'
   },
