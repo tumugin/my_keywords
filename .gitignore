@@ -9,6 +9,7 @@
 # production
 /dist
 /prod
+/.firebase
 
 # misc
 .DS_Store
