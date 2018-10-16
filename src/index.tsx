@@ -18,7 +18,7 @@ const store = createStore(reducer)
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <div>
+      <div id="router-container">
         <StartupComponent/>
         <Switch>
           <Route exact={true} path="/" component={Home}/>

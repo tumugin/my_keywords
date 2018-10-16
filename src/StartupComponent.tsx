@@ -20,7 +20,7 @@ class StartupComponent extends Component<IStartupComponentProp> {
 
   render() {
     // https://stackoverflow.com/questions/42083181/is-it-possible-to-return-empty-in-react-render-function
-    return (<div/>)
+    return (null)
   }
 }
 

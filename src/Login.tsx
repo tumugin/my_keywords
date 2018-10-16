@@ -3,6 +3,8 @@ import {Component} from 'react'
 import {withRouter, RouteComponentProps} from 'react-router'
 import firebase from './firebase/config'
 import {connect} from 'react-redux'
+// @ts-ignore
+import style from './style/login.scss'
 
 class LoginState {
   isLoggedIn: boolean = false
@@ -34,9 +36,12 @@ class Login extends Component<RouteComponentProps, LoginState> {
 
   render() {
     return (
-      <div>
-        <button onClick={this.googleLogin}>Googleでログイン</button>
-        <p>{this.state.isLoggedIn ? 'ログイン済み' : '未ログイン'}</p>
+      <div className={style.componentRoot}>
+        <div className={style.loginContainer}>
+          <h3 style={{paddingBottom: '20px'}}>ログイン</h3>
+          <button onClick={this.googleLogin} className="btn btn-danger">Googleでログイン</button>
+          <p>{this.state.isLoggedIn ? 'ログイン済みです' : '未ログインです'}</p>
+        </div>
       </div>
     )
   }
