@@ -14,7 +14,7 @@ function resolve(dir) {
 
 //define default public URL
 // const publicUrl = 'http://exmaple.com';
-const publicUrl = '.';
+const publicUrl = 'https://my-keyworks.firebaseapp.com';
 if(process.env.PUBLIC_URL === undefined) process.env.PUBLIC_URL = publicUrl
 
 //delete dist files
