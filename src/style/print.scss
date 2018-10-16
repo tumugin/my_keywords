@@ -1,7 +1,10 @@
+$card_margin: 10px;
+
 .categoryCard {
-  margin: 10px;
   display: inline-block;
   width: 100%;
+  margin-bottom: $card_margin / 2;
+  margin-top: $card_margin / 2;
 }
 
 .keyword {
@@ -12,6 +15,5 @@
 
 .categoryParent {
   column-width: 300px;
-  //WORKAROUND
-  padding-right: 20px;
+  column-gap: $card_margin;
 }
