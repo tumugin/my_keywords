@@ -38,7 +38,8 @@ class KeywordCard extends Component<IKeywordCardProps, KeywordCardState> {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       border: 'none',
-      width: '400px'
+      width: '400px',
+      backgroundColor: 'transparent'
     }
   }
 
