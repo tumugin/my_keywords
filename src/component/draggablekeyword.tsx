@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {findDOMNode} from 'react-dom'
+import { findDOMNode } from 'react-dom'
 import {
   DragSource,
   DropTarget,
@@ -10,12 +10,12 @@ import {
   DragSourceConnector,
   DragSourceMonitor
 } from 'react-dnd'
-import {XYCoord} from 'dnd-core'
+import { XYCoord } from 'dnd-core'
 import * as octicons from 'octicons'
 // @ts-ignore
 import ReactHtmlParser from 'react-html-parser'
-import {Keyword} from '../data/category'
-import {ChangeEvent} from 'react'
+import { Keyword } from '../data/category'
+import { ChangeEvent } from 'react'
 
 const cardSource = {
   beginDrag(props: ICardProps) {
@@ -75,15 +75,16 @@ class CardState {
 
 const CardIdentifier = 'CARD'
 
+// TODO: !!!!WORKAROUND FOR DECORATOR ERRORS!!!!
+// @ts-ignore
 @DropTarget(CardIdentifier, cardTarget, (connect: DropTargetConnector) => ({
   connectDropTarget: connect.dropTarget()
 }))
-@DragSource(CardIdentifier, cardSource,
-  (connect: DragSourceConnector, monitor: DragSourceMonitor) => ({
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  })
-)
+// @ts-ignore
+@DragSource(CardIdentifier, cardSource, (connect: DragSourceConnector, monitor: DragSourceMonitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging()
+}))
 export default class DraggableKeyword extends React.Component<ICardProps, CardState> {
   constructor(props: ICardProps) {
     super(props)
@@ -91,55 +92,63 @@ export default class DraggableKeyword extends React.Component<ICardProps, CardSt
   }
 
   public render() {
-    const {
-      isDragging,
-      onDeleteClick,
-      identifierId,
-      connectDragSource,
-      connectDropTarget
-    } = this.props
+    const { isDragging, onDeleteClick, identifierId, connectDragSource, connectDropTarget } = this.props
     return (
       connectDragSource &&
       connectDropTarget &&
       connectDragSource(
         connectDropTarget(
-          <li className="list-group-item" style={{
-            opacity: isDragging ? 0 : 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}>
-            <span style={{display: this.state.textboxShown ? 'none' : 'inline'}}>{this.props.keyword.name}</span>
-            <form onSubmit={this.onEditKeyword} action="javascript:void(0)"
-                  style={{display: this.state.textboxShown ? 'inline' : 'none', width: '100%'}}>
-              <input type="text" className="form-control" placeholder="単語を新しく追加" value={this.state.editedText}
-                     onChange={this.onEditKeywordChanged}/>
+          <li
+            className="list-group-item"
+            style={{
+              opacity: isDragging ? 0 : 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <span style={{ display: this.state.textboxShown ? 'none' : 'inline' }}>{this.props.keyword.name}</span>
+            <form
+              onSubmit={this.onEditKeyword}
+              action="javascript:void(0)"
+              style={{ display: this.state.textboxShown ? 'inline' : 'none', width: '100%' }}
+            >
+              <input
+                type="text"
+                className="form-control"
+                placeholder="単語を新しく追加"
+                value={this.state.editedText}
+                onChange={this.onEditKeywordChanged}
+              />
             </form>
-            <span style={{display: this.state.textboxShown ? 'none' : 'inline', whiteSpace: 'nowrap'}}>
-              <a onClick={this.onEditKeywordClick} href="#"
-                 style={{marginRight: '10px'}}>{ReactHtmlParser(octicons.pencil.toSVG())}</a>
-              <a onClick={() => onDeleteClick(this.props.keyword.id!)}
-                 href="#">{ReactHtmlParser(octicons.trashcan.toSVG())}</a>
+            <span style={{ display: this.state.textboxShown ? 'none' : 'inline', whiteSpace: 'nowrap' }}>
+              <a onClick={this.onEditKeywordClick} href="#" style={{ marginRight: '10px' }}>
+                {ReactHtmlParser(octicons.pencil.toSVG())}
+              </a>
+              <a onClick={() => onDeleteClick(this.props.keyword.id!)} href="#">
+                {ReactHtmlParser(octicons.trashcan.toSVG())}
+              </a>
             </span>
-          </li>)
+          </li>
+        )
       )
     )
   }
 
   private onEditKeywordClick = async () => {
-    await this.setState({editedText: this.props.keyword.name!})
-    await this.setState({textboxShown: true})
+    await this.setState({ editedText: this.props.keyword.name! })
+    await this.setState({ textboxShown: true })
   }
 
   private onEditKeywordChanged = async (event: ChangeEvent<HTMLInputElement>) => {
-    await this.setState({editedText: event.target.value})
+    await this.setState({ editedText: event.target.value })
   }
 
   private onEditKeyword = async () => {
     if (this.state.editedText === '') {
       return
     }
-    await this.setState({textboxShown: false})
+    await this.setState({ textboxShown: false })
     this.props.onEdit(this.props.keyword.id!, this.state.editedText)
   }
 }
