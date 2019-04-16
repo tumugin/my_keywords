@@ -1,7 +1,8 @@
 {
   "extends": [
     "tslint:recommended",
-    "tslint-react"
+    "tslint-react",
+    "tslint-config-prettier"
   ],
   "rules": {
     "ordered-imports": false,
@@ -18,5 +19,8 @@
     "object-literal-sort-keys": false,
     "quotemark": [true, "single", "jsx-double"],
     "semicolon": [true, "never"]
+  }
+}
+[true, "never"]
   }
 }
